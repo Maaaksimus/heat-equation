@@ -3,7 +3,7 @@
 class First
 {
 public:
-    int n;
+    int n, m;
     double h;
     vector<vector<double> > A, u;
     vector<double> B;
@@ -11,5 +11,9 @@ public:
     First(int N);
     ~First() = default;
 
-    void createMatrixForStep(int m);
+    void createMatrixForTimeStep(int m);
+    void TridiagMatrixAlg();
+    void findFunction(int T);
+
+    void errorRate();
 };
