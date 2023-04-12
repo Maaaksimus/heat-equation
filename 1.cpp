@@ -22,8 +22,9 @@ void First::createMatrixForTimeStep(int m) // create matrix for
     A.push_back(buff);
     B.push_back(0);
 
-    for (int i = 1; i < n - 1; i ++) {
+    for (int i = 0; i < n - 1; i ++) {
         buff.clear();
+        cout << m << endl;
         buff.push_back(nu / (h*h) - u[m][i] / (2*h));
         buff.push_back( - 2*nu / (h*h) - 1./tau);
         buff.push_back(nu / (h*h) + u[m][i] / (2*h));
@@ -60,7 +61,7 @@ void First::TridiagMatrixAlg() // finding function values for m-th time step
 
 void First::findFunction(int T)
 {
-    for (int i = 1; i < T; i ++) {
+    for (int i = 0; i < T; i ++) {
         createMatrixForTimeStep(i);
         TridiagMatrixAlg();
         A.clear();
