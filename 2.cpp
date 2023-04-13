@@ -1,6 +1,6 @@
-#include "1.h"
+#include "2.h"
 
-First::First(int N)
+Second::Second(int N)
 {
     vector<double> buff;
     n = N;
@@ -12,7 +12,7 @@ First::First(int N)
     u.push_back(buff);
 }
 
-void First::createMatrixForTimeStep(int m) // create matrix for 
+void Second::createMatrixForTimeStep(int m) // create matrix for 
 {
     vector<double> buff;
 
@@ -24,7 +24,7 @@ void First::createMatrixForTimeStep(int m) // create matrix for
 
     for (int i = 0; i < n - 1; i ++) {
         buff.clear();
-        // cout << m << endl;
+        cout << m << endl;
         buff.push_back(nu / (h*h) - u[m][i] / (2*h));
         buff.push_back( - 2*nu / (h*h) - 1./tau);
         buff.push_back(nu / (h*h) + u[m][i] / (2*h));
@@ -41,7 +41,7 @@ void First::createMatrixForTimeStep(int m) // create matrix for
     B.push_back(1);
 }
 
-void First::TridiagMatrixAlg() // finding function values for m-th time step
+void Second::TridiagMatrixAlg() // finding function values for m-th time step
 {
     vector<double> p, q, step;
     p.push_back((-1) * A[0][1] / A[0][0]);
@@ -59,17 +59,31 @@ void First::TridiagMatrixAlg() // finding function values for m-th time step
     u.push_back(step);
 }
 
-void First::findFunction(int T)
+void Second::findFunction(int T)
 {
-    for (int i = 0; i < T; i ++) {
-        createMatrixForTimeStep(i);
-        TridiagMatrixAlg();
-        A.clear();
-        B.clear();
+    vector<double> step;
+
+    for (int m = 0; m < T; m ++) {
+        step.push_back(0);
+
+        cout << "T " << m << endl;
+        for (int i = 1; i < n - 1; i ++) {
+            // cout << "check " << i << endl;
+            // cout << u[m][i - 1] << " " << u[m][i] << " " << u[m][i + 1] << endl;
+
+            step.push_back(tau*(u[m][i] / tau + nu*(u[m][i + 1] - 2*u[m][i] + u[m][i - 1]) / (h*h) + u[m][i]*(u[m][i + 1] - u[m][i - 1]) / (2*h)));
+        }
+
+        step.push_back(1);
+        
+        cout << step.size() << endl;
+
+        u.push_back(step);
+        step.clear();
     }
 }
 
-void First::errorRate()
+void Second::errorRate()
 {
     // нахождение невязки
 }
