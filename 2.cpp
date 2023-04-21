@@ -26,11 +26,11 @@ void Second::createMatrixForTimeStep(int m) // create matrix for
         buff.clear();
         cout << m << endl;
         buff.push_back(nu / (h*h) - u[m][i] / (2*h));
-        buff.push_back( - 2*nu / (h*h) - 1./tau);
+        buff.push_back( - 2*nu / (h*h) - 1./tau2);
         buff.push_back(nu / (h*h) + u[m][i] / (2*h));
 
         A.push_back(buff);
-        B.push_back( - u[m][i] / tau);
+        B.push_back( - u[m][i] / tau2);
     }
 
     buff.clear();
@@ -66,17 +66,17 @@ void Second::findFunction(int T)
     for (int m = 0; m < T; m ++) {
         step.push_back(0);
 
-        cout << "T " << m << endl;
+        // cout << "T " << m << endl;
         for (int i = 1; i < n - 1; i ++) {
             // cout << "check " << i << endl;
             // cout << u[m][i - 1] << " " << u[m][i] << " " << u[m][i + 1] << endl;
 
-            step.push_back(tau*(u[m][i] / tau + nu*(u[m][i + 1] - 2*u[m][i] + u[m][i - 1]) / (h*h) + u[m][i]*(u[m][i + 1] - u[m][i - 1]) / (2*h)));
+            step.push_back(tau2*(u[m][i] / tau2 + nu*(u[m][i + 1] - 2*u[m][i] + u[m][i - 1]) / (h*h) + u[m][i]*(u[m][i + 1] - u[m][i - 1]) / (2*h)));
         }
 
         step.push_back(1);
         
-        cout << step.size() << endl;
+        // cout << step.size() << endl;
 
         u.push_back(step);
         step.clear();

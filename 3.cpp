@@ -45,7 +45,7 @@ vector<double> Third::TridiagMatrixAlg()
     vector<double> p, q, step;
     p.push_back((-1) * A[0][1] / A[0][0]);
     q.push_back(B[0] / A[0][0]);
-    for (int i = 1; i < n; i++) {
+    for (int i = 1; i < n - 1; i++) {
         p.push_back((-1) * A[i][2] / (A[i][1] + A[i][0] * p[i - 1]));
         q.push_back((-1) * (A[i][0] * q[i - 1] - B[i]) /
                     (A[i][1] + A[i][0] * p[i - 1]));
@@ -58,44 +58,81 @@ vector<double> Third::TridiagMatrixAlg()
     return step;
 }
 
+vector<double> Third::TridiagMatrixAlg2()
+{
+    vector<double> aplha, betta, step;
+    double y;
+
+    y = A[0][0];
+    aplha.push_back(- A[0][1] / y);
+    betta.push_back(B[0] / y);
+
+    for (int i = 1; i < n - 1; i ++) {
+        y = A[i][1] + A[i][0]*aplha[i - 1];
+        aplha.push_back( - A[i][2] / y);
+        betta.push_back((B[i] - A[i][0]*betta[i - 1]) / y);
+    }
+
+    y = 
+    step.push_back();
+
+    return step;
+}
+
 void Third::stepIterations(int K, int m)
 {
+    ofstream out;
+    out.open("err.txt", ios::app);
+    out << " ==== Слой " << m + 1 << " ====" << endl;
+
     vector<double> iter_step;
     iter_step = u[m + 1];
-    cout << "pre iter " << iter_step.size() << endl;
+    // cout << "pre iter " << iter_step.size() << endl;
     for (int k = 0; k < K; k ++) {
         for (int i = 1; i < n - 1; i ++) {
             A[i][0] = nu / (h*h) + iter_step[i] / (2*h);
             A[i][2] = nu / (h*h) - iter_step[i] / (2*h);
         }
         iter_step = TridiagMatrixAlg();
+
+        out << scientific << errorRate(iter_step, u[m]) << endl;
         // for (int j = 0; j < n; j ++) {
         //     cout << iter_step[j] << " ";
         // }
         // cout << endl;
     }
-    cout << "after iter " << iter_step.size() << endl;
+
+    out.close();
+    
+    // cout << "after iter " << iter_step.size() << endl;
     u[m + 1] = iter_step;
 }
 
 void Third::findFunction(int T)
 {
     for (int i = 0; i < T; i ++) {
-        cout << T << endl;
+        // cout << T << endl;
         createMatrixForTimeStep(i);
-        cout << T << endl;
+        // cout << T << endl;
         u.push_back(TridiagMatrixAlg());
-        cout << T << endl;
+        // cout << T << endl;
         stepIterations(STEP_ITERATIONS, i);
-        cout << T << endl;
+        // cout << T << endl;
         A.clear();
-        cout << "t1" << endl;
+        // cout << "t1" << endl;
         B.clear();
-        cout << "out" << endl;
+        // cout << "out" << endl;
     }
 }
 
-void Third::errorRate()
+double Third::errorRate(vector<double> iter, vector<double> start)
 {
-    // нахождение невязки
+    double err = 0, right, left;
+    for (int i = 1; i < n - 1; i ++) {
+        left = iter[i] - start[i] / tau;
+        right = nu*(iter[i + 1] - 2*iter[i] + iter[i - 1]) / (h*h) + iter[i]*(iter[i + 1] - iter[i - 1]) / (2*h);
+        err += (right - left)*(right - left);
+    }
+
+    return sqrt(err) / NUM_OF_POINTS;
 }

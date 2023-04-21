@@ -53,7 +53,7 @@ void First::TridiagMatrixAlg() // finding function values for m-th time step
     }
     step.push_back((-1) * (A[n - 1][0] * q[n - 2] - B[n - 1]) /
                       (A[n - 1][1] + A[n - 1][0] * p[n - 2]));
-    for (int i = n - 1; i >= 0; i--) {
+    for (int i = n - 2; i >= 0; i--) {
         step.emplace(step.begin(), p[i] * step[0] + q[i]);
     }
     u.push_back(step);
@@ -62,6 +62,7 @@ void First::TridiagMatrixAlg() // finding function values for m-th time step
 void First::findFunction(int T)
 {
     for (int i = 0; i < T; i ++) {
+        cout << i << endl;
         createMatrixForTimeStep(i);
         TridiagMatrixAlg();
         A.clear();
