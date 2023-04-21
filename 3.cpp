@@ -73,8 +73,12 @@ vector<double> Third::TridiagMatrixAlg2()
         betta.push_back((B[i] - A[i][0]*betta[i - 1]) / y);
     }
 
-    y = 
-    step.push_back();
+    y = A[n - 1][1] + A[n - 1][0]*aplha[n - 2];
+    step.push_back((B[n - 1] - A[n - 1][0]*betta[n - 2]) / y);
+
+    for (int i = n - 2; i >= 0; i --) {
+        step.emplace(step.begin(), aplha[i]*step[0] + betta[i]);
+    }
 
     return step;
 }
@@ -93,7 +97,7 @@ void Third::stepIterations(int K, int m)
             A[i][0] = nu / (h*h) + iter_step[i] / (2*h);
             A[i][2] = nu / (h*h) - iter_step[i] / (2*h);
         }
-        iter_step = TridiagMatrixAlg();
+        iter_step = TridiagMatrixAlg2();
 
         out << scientific << errorRate(iter_step, u[m]) << endl;
         // for (int j = 0; j < n; j ++) {
@@ -114,7 +118,7 @@ void Third::findFunction(int T)
         // cout << T << endl;
         createMatrixForTimeStep(i);
         // cout << T << endl;
-        u.push_back(TridiagMatrixAlg());
+        u.push_back(TridiagMatrixAlg2());
         // cout << T << endl;
         stepIterations(STEP_ITERATIONS, i);
         // cout << T << endl;
