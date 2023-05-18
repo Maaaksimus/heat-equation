@@ -97,9 +97,14 @@ void Third::stepIterations(int K, int m)
             A[i][0] = nu / (h*h) - iter_step[i] / (2*h);
             A[i][2] = nu / (h*h) + iter_step[i] / (2*h);
         }
+        // printAMatrix();
         iter_step = TridiagMatrixAlg2();
 
         out << scientific << errorRate(iter_step, u[m + 1]) << endl;
+        for (int i = 0; i < n; i ++) {
+            out << iter_step[i]  << " ";
+        }
+        out << endl;
         // for (int j = 0; j < n; j ++) {
         //     cout << iter_step[j] << " ";
         // }
@@ -138,5 +143,14 @@ double Third::errorRate(vector<double> iter, vector<double> start)
         err += (right - left)*(right - left);
     }
 
-    return sqrt(err) / NUM_OF_POINTS;
+    return sqrt(err / (NUM_OF_POINTS - 2));
+}
+
+void Third::printAMatrix() {
+    cout << "==========" << endl;
+    cout << A[0][0] << " " << A[0][1] << endl;
+    for (int i = 1; i < n - 1; i ++) {
+        cout << A[i][0] << " " << A[i][1] << " " << A[i][2] << endl;
+    }
+    cout << A[n - 1][0] << " " << A[n - 1][1] << endl;
 }

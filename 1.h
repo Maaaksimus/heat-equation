@@ -15,5 +15,7 @@ public:
     void TridiagMatrixAlg();
     void findFunction(int T);
 
-    void errorRate();
+    void printAMatrix();
+
+    double errorRate(vector<double> iter, vector<double> start);
 };

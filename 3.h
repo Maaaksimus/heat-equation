@@ -1,6 +1,6 @@
 #include "baselib.h"
 
-#define STEP_ITERATIONS 20
+#define STEP_ITERATIONS 10
 
 class Third
 {
@@ -18,6 +18,8 @@ public:
     vector<double> TridiagMatrixAlg2();
     void stepIterations(int K, int m);
     void findFunction(int T);
+
+    void printAMatrix();
 
     double errorRate(vector<double> iter, vector<double> start);
 };

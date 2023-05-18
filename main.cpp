@@ -5,10 +5,10 @@
 
 int main() {
     int n = NUM_OF_POINTS;
-    double h;
+    double delta = 0;
     ofstream out1, out2, out3;
 
-    // cin >> n;a
+    // cin >> n;
 
     First f(n);
     Second s(n);
@@ -16,8 +16,10 @@ int main() {
     f.findFunction(TAU_STEPS);
     s.findFunction(TAU2_STEPS);
     t.findFunction(TAU_STEPS);
+
+    cout << "TAU_STEPS: " << TAU_STEPS << ", tau: " << tau << ", n: " << n << "" << endl;
     
-    out1.open("p1.txt");
+    out1.open("p1.txt", ios::out);
     // for (int i = 0; i < n; i ++) {
     //     out1 << i*f.h << " ";
     // }
@@ -32,24 +34,34 @@ int main() {
     //     }
     // } 
     for (int i = 0; i < n; i ++) {
-        // for (int j = 0; j < TAU_STEPS; j ++) {
-        //     out1 << i*f.h << " " << j*tau << " " << f.u[j][i] << endl;
-        // }
-        out1 << i*f.h << " " << f.u[TAU_STEPS - 1][i] << endl;
-    }
-
-    out2.open("p2.txt");
-    for (int i = 0; i < n; i ++) {
-        for (int j = 0; j < TAU2_STEPS; j ++) {
-            out2 << i*s.h << " " << j*tau2 << " " << s.u[j][i] << endl;
+        for (int j = 0; j < TAU_STEPS; j ++) {
+            out1 << i*f.h << " " << j*tau << " " << f.u[j][i] << endl;
         }
+        // out1 << i*f.h << " " << f.u[TAU_STEPS - 1][i] << endl;
     }
 
-    out3.open("p3.txt");
+    cout << "Без итерации: " << f.errorRate(f.u[TAU_STEPS - 1], f.u[TAU_STEPS - 2]) << endl;
+
+    // out2.open("p2.txt");
+    // for (int i = 0; i < n; i ++) {
+    //     for (int j = 0; j < TAU2_STEPS; j ++) {
+    //         out2 << i*s.h << " " << j*tau2 << " " << s.u[j][i] << endl;
+    //     }
+    // }
+
+    out3.open("p3.txt", ios::out);
     for (int i = 0; i < n; i ++) {
         // for (int j = 0; j < TAU_STEPS; j ++) {
         //     out3 << i*t.h << " " << j*tau << " " << t.u[j][i] << endl;
         // }
         out3 << i*t.h << " " << t.u[TAU_STEPS - 1][i] << endl;
     }
+
+    cout << "С итериацией: " << t.errorRate(t.u[TAU_STEPS - 1], t.u[TAU_STEPS - 2]) << endl;
+
+    for (int i = 0; i < n; i ++) {
+        delta += (f.u[TAU_STEPS - 1][i] - t.u[TAU_STEPS - 1][i])*(f.u[TAU_STEPS - 1][i] - t.u[TAU_STEPS - 1][i]);
+    }
+    
+    cout << "Разница:" << sqrt(delta / n) << " " << delta << endl;
 }
