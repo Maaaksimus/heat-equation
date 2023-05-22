@@ -5,6 +5,7 @@ Third::Third(int N)
     vector<double> buff;
     n = N;
     h = 1. / (n - 1);
+    tau = 1. / (TAU_STEPS);
     
     for (int i = 0; i < n; i ++) {
         buff.push_back(0);

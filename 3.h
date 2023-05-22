@@ -6,7 +6,7 @@ class Third
 {
 public:
     int n, m;
-    double h;
+    double h, tau;
     vector<vector<double> > A, u;
     vector<double> B;
 

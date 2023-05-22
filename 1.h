@@ -4,11 +4,11 @@ class First
 {
 public:
     int n, m;
-    double h;
+    double h, tau;
     vector<vector<double> > A, u;
     vector<double> B;
 
-    First(int N);
+    First(int N, int T);
     ~First() = default;
 
     void createMatrixForTimeStep(int m);

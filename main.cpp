@@ -5,19 +5,19 @@
 
 int main() {
     int n = NUM_OF_POINTS;
-    double delta = 0;
+    double delta = 0, TAU = 1. / (TAU_STEPS - 1);
     ofstream out1, out2, out3;
 
     // cin >> n;
 
-    First f(n);
+    First f(n,TAU_STEPS);
     Second s(n);
     Third t(n);
     f.findFunction(TAU_STEPS);
     s.findFunction(TAU2_STEPS);
     t.findFunction(TAU_STEPS);
 
-    cout << "TAU_STEPS: " << TAU_STEPS << ", tau: " << tau << ", n: " << n << "" << endl;
+    cout << "TAU_STEPS: " << TAU_STEPS << ", tau: " << TAU << ", n: " << n << "" << endl;
     
     out1.open("p1.txt", ios::out);
     // for (int i = 0; i < n; i ++) {
@@ -35,7 +35,7 @@ int main() {
     // } 
     for (int i = 0; i < n; i ++) {
         for (int j = 0; j < TAU_STEPS; j ++) {
-            out1 << i*f.h << " " << j*tau << " " << f.u[j][i] << endl;
+            out1 << i*f.h << " " << j*TAU << " " << f.u[j][i] << endl;
         }
         // out1 << i*f.h << " " << f.u[TAU_STEPS - 1][i] << endl;
     }

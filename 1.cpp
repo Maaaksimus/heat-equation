@@ -1,10 +1,11 @@
 #include "1.h"
 
-First::First(int N)
+First::First(int N, int T)
 {
     vector<double> buff;
     n = N;
     h = 1. / (n - 1);
+    tau = 1. / (T - 1);
     
     for (int i = 0; i < n; i ++) {
         buff.push_back(sin(i*h*M_PI / 2.));
