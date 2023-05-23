@@ -9,6 +9,7 @@ First::First(int N, int T)
     
     for (int i = 0; i < n; i ++) {
         buff.push_back(sin(i*h*M_PI / 2.));
+        // buff.push_back(0);
     }
     u.push_back(buff);
 }
