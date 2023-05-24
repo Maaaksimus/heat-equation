@@ -90,7 +90,7 @@ void Third::stepIterations(int K, int m)
     out.open("err.txt", ios::app);
     out << " ==== Слой " << m + 1 << " ====" << endl;
 
-    vector<double> iter_step;
+    vector<double> iter_step, buff;
     iter_step = u[m + 1];
     // cout << "pre iter " << iter_step.size() << endl;
     for (int k = 0; k < K; k ++) {
@@ -99,13 +99,20 @@ void Third::stepIterations(int K, int m)
             A[i][2] = nu / (h*h) + iter_step[i] / (2*h);
         }
         // printAMatrix();
-        iter_step = TridiagMatrixAlg2();
+        buff = TridiagMatrixAlg2();
 
-        out << scientific << errorRate(iter_step, u[m + 1]) << endl;
+        out << scientific << errorRate(buff, iter_step) << endl;
         for (int i = 0; i < n; i ++) {
             out << iter_step[i]  << " ";
         }
         out << endl;
+        for (int i = 0; i < n; i ++) {
+            out << buff[i]  << " ";
+        }
+        out << endl;
+
+        iter_step = buff;
+
         // for (int j = 0; j < n; j ++) {
         //     cout << iter_step[j] << " ";
         // }
@@ -120,6 +127,9 @@ void Third::stepIterations(int K, int m)
 
 void Third::findFunction(int T)
 {
+    ofstream out;
+    out.open("err.txt", ios::out);
+    out.close();
     for (int i = 0; i < T; i ++) {
         // cout << T << endl;
         createMatrixForTimeStep(i);

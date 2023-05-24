@@ -10,7 +10,7 @@ int main() {
 
     // cin >> n;
 
-    First f(n,TAU_STEPS);
+    First f(n, TAU_STEPS);
     Second s(n);
     Third t(n);
     f.findFunction(TAU_STEPS);
@@ -51,10 +51,10 @@ int main() {
 
     out3.open("p3.txt", ios::out);
     for (int i = 0; i < n; i ++) {
-        // for (int j = 0; j < TAU_STEPS; j ++) {
-        //     out3 << i*t.h << " " << j*tau << " " << t.u[j][i] << endl;
-        // }
-        out3 << i*t.h << " " << t.u[TAU_STEPS - 1][i] << endl;
+        for (int j = 0; j < TAU_STEPS; j ++) {
+            out3 << i*t.h << " " << j*TAU << " " << t.u[j][i] << endl;
+        }
+        // out3 << i*t.h << " " << t.u[TAU_STEPS - 1][i] << endl;
     }
 
     cout << "С итериацией: " << t.errorRate(t.u[TAU_STEPS - 1], t.u[TAU_STEPS - 2]) << endl;
