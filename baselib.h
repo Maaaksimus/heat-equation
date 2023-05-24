@@ -4,11 +4,11 @@
 #include <cmath>
 
 #define TAU_STEPS 20
-#define TAU2_STEPS 20
-#define NUM_OF_POINTS 10
+#define TAU2_STEPS 20000
+#define NUM_OF_POINTS 20
 
 // #define tau 1. / (TAU_STEPS - 1) // связано с TAU_STEPS
-#define tau2 1e-5 // связано с TAU_STEPS2
+// #define tau2 1e-5 // связано с TAU_STEPS2
 #define nu 2.
 #define EPS 1e-6
 

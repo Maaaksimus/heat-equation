@@ -1,14 +1,14 @@
 #include "3.h"
 
-Third::Third(int N)
+Third::Third(int N, int T)
 {
     vector<double> buff;
     n = N;
     h = 1. / (n - 1);
-    tau = 1. / (TAU_STEPS);
+    tau = 1. / (T - 1);
     
     for (int i = 0; i < n; i ++) {
-        buff.push_back(0);
+        buff.push_back(sin(i*h*M_PI / 2.));
     }
     u.push_back(buff);
 }
@@ -87,12 +87,14 @@ vector<double> Third::TridiagMatrixAlg2()
 void Third::stepIterations(int K, int m)
 {
     ofstream out;
+    double iter_err = 0;
     out.open("err.txt", ios::app);
     out << " ==== Слой " << m + 1 << " ====" << endl;
 
     vector<double> iter_step, buff;
     iter_step = u[m + 1];
     // cout << "pre iter " << iter_step.size() << endl;
+    // cout << "nu: " << h*h << " " << nu / (h*h) << endl;
     for (int k = 0; k < K; k ++) {
         for (int i = 1; i < n - 1; i ++) {
             A[i][0] = nu / (h*h) - iter_step[i] / (2*h);
@@ -101,7 +103,7 @@ void Third::stepIterations(int K, int m)
         // printAMatrix();
         buff = TridiagMatrixAlg2();
 
-        out << scientific << errorRate(buff, iter_step) << endl;
+        out << scientific << errorRate(buff, u[m + 1]) << endl;
         for (int i = 0; i < n; i ++) {
             out << iter_step[i]  << " ";
         }
@@ -110,6 +112,12 @@ void Third::stepIterations(int K, int m)
             out << buff[i]  << " ";
         }
         out << endl;
+
+        for (int i = 0; i < n; i ++) {
+            iter_err += (iter_step[i] - buff[i])*(iter_step[i] - buff[i]);
+        }
+
+        out << scientific << sqrt(iter_err / n) << endl << endl;
 
         iter_step = buff;
 

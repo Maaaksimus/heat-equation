@@ -1,13 +1,15 @@
 #include "2.h"
 
-Second::Second(int N)
+Second::Second(int N, int T)
 {
     vector<double> buff;
     n = N;
     h = 1. / (n - 1);
+    tau = 1. / (T - 1);
     
     for (int i = 0; i < n; i ++) {
-        buff.push_back(0);
+        // buff.push_back(0);
+        buff.push_back(sin(i*h*M_PI / 2.));
     }
     u.push_back(buff);
 }
@@ -26,11 +28,11 @@ void Second::createMatrixForTimeStep(int m) // create matrix for
         buff.clear();
         cout << m << endl;
         buff.push_back(nu / (h*h) - u[m][i] / (2*h));
-        buff.push_back( - 2*nu / (h*h) - 1./tau2);
+        buff.push_back( - 2*nu / (h*h) - 1./tau);
         buff.push_back(nu / (h*h) + u[m][i] / (2*h));
 
         A.push_back(buff);
-        B.push_back( - u[m][i] / tau2);
+        B.push_back( - u[m][i] / tau);
     }
 
     buff.clear();
@@ -71,7 +73,7 @@ void Second::findFunction(int T)
             // cout << "check " << i << endl;
             // cout << u[m][i - 1] << " " << u[m][i] << " " << u[m][i + 1] << endl;
 
-            step.push_back(tau2*(u[m][i] / tau2 + nu*(u[m][i + 1] - 2*u[m][i] + u[m][i - 1]) / (h*h) + u[m][i]*(u[m][i + 1] - u[m][i - 1]) / (2*h)));
+            step.push_back(tau*(u[m][i] / tau + nu*(u[m][i + 1] - 2*u[m][i] + u[m][i - 1]) / (h*h) + u[m][i]*(u[m][i + 1] - u[m][i - 1]) / (2*h)));
         }
 
         step.push_back(1);
@@ -83,7 +85,14 @@ void Second::findFunction(int T)
     }
 }
 
-void Second::errorRate()
+double Second::errorRate(vector<double> last, vector<double> prev)
 {
-    // нахождение невязки
+    double err = 0, right, left;
+    for (int i = 1; i < n - 1; i ++) {
+        left = (last[i] - prev[i]) / tau;
+        right = nu*(last[i + 1] - 2*last[i] + last[i - 1]) / (h*h) + last[i]*(last[i + 1] - last[i - 1]) / (2*h);
+        err += (right - left)*(right - left);
+    }
+
+    return sqrt(err / (NUM_OF_POINTS - 2));
 }

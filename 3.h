@@ -10,7 +10,7 @@ public:
     vector<vector<double> > A, u;
     vector<double> B;
 
-    Third(int N);
+    Third(int N, int T);
     ~Third() = default;
 
     void createMatrixForTimeStep(int m);
