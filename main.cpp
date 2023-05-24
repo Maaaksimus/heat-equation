@@ -65,5 +65,5 @@ int main() {
         delta += (f.u[TAU_STEPS - 1][i] - t.u[TAU_STEPS - 1][i])*(f.u[TAU_STEPS - 1][i] - t.u[TAU_STEPS - 1][i]);
     }
     
-    cout << "Разница:" << sqrt(delta / n) << " " << delta << endl;
+    cout << "Разница:" << sqrt(delta / n) << endl;
 }

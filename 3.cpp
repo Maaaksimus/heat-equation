@@ -118,6 +118,7 @@ void Third::stepIterations(int K, int m)
         }
 
         out << scientific << sqrt(iter_err / n) << endl << endl;
+        iter_err = 0;
 
         iter_step = buff;
 
@@ -138,7 +139,7 @@ void Third::findFunction(int T)
     ofstream out;
     out.open("err.txt", ios::out);
     out.close();
-    for (int i = 0; i < T; i ++) {
+    for (int i = 0; i < T - 1; i ++) {
         // cout << T << endl;
         createMatrixForTimeStep(i);
         // cout << T << endl;

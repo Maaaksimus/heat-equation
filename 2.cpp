@@ -65,7 +65,7 @@ void Second::findFunction(int T)
 {
     vector<double> step;
 
-    for (int m = 0; m < T; m ++) {
+    for (int m = 0; m < T - 1; m ++) {
         step.push_back(0);
 
         // cout << "T " << m << endl;
