@@ -103,7 +103,7 @@ void Third::stepIterations(int K, int m)
         // printAMatrix();
         buff = TridiagMatrixAlg2();
 
-        out << scientific << errorRate(buff, u[m + 1]) << endl;
+        out << scientific << errorRate(buff, u[m]) << endl;
         for (int i = 0; i < n; i ++) {
             out << iter_step[i]  << " ";
         }

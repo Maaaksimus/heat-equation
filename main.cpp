@@ -49,7 +49,7 @@ int main() {
         }
     }
 
-    cout << "Явная схема: " << s.errorRate(s.u[TAU_STEPS - 1], s.u[TAU_STEPS - 2]) << endl;
+    cout << "Явная схема: " << s.errorRate(s.u[TAU2_STEPS - 1], s.u[TAU2_STEPS - 2]) << endl;
 
     out3.open("p3.txt", ios::out);
     for (int i = 0; i < n; i ++) {
